@@ -48,7 +48,8 @@ function readProvider(): LlmProvider {
 export const config = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: num('PORT', 4000),
-  appUrl: process.env.APP_URL ?? 'http://localhost:5173',
+  // Пусто — адрес берётся из запроса (за прокси работает через trust proxy).
+  appUrl: process.env.APP_URL?.trim() ?? '',
   databaseUrl: process.env.DATABASE_URL ?? 'postgresql://app:app@localhost:5433/text_app',
   sessionSecret: process.env.SESSION_SECRET ?? 'dev_secret_change_me_in_production',
   sessionTtlDays: num('SESSION_TTL_DAYS', 7),

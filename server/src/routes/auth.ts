@@ -49,7 +49,12 @@ authRouter.post('/request-login', async (req, res, next) => {
       data: { userId: user.id, tokenHash: hashToken(token), expiresAt },
     });
 
-    const link = `${config.appUrl.replace(/\/$/, '')}/auth/verify?token=${encodeURIComponent(token)}`;
+    // Базовый адрес: APP_URL из окружения, иначе — из самого запроса.
+    const baseUrl = (config.appUrl || `${req.protocol}://${req.get('host') ?? 'localhost'}`).replace(
+      /\/$/,
+      '',
+    );
+    const link = `${baseUrl}/auth/verify?token=${encodeURIComponent(token)}`;
     await sendMagicLink(email, link);
 
     logger.info({ email, mailer: isMailerConfigured() }, 'запрошен вход по ссылке');

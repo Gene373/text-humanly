@@ -1,0 +1,42 @@
+# Чертёж Render: одной кнопкой создаёт бесплатную базу PostgreSQL и веб-сервис.
+# Использование: Render Dashboard → New → Blueprint → выбрать репозиторий.
+
+databases:
+  - name: text-humanly-db
+    databaseName: text_app
+    user: app
+    plan: free
+    region: frankfurt
+
+services:
+  - type: web
+    name: text-humanly
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      # Строка подключения подставляется автоматически из созданной базы
+      - key: DATABASE_URL
+        fromDatabase:
+          name: text-humanly-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      # Демо-стенд без SMTP: ссылка для входа возвращается в интерфейс
+      - key: DEV_LOGIN_LINK
+        value: "true"
+      # VK-бот на бесплатном тарифе выключен (сервис засыпает)
+      - key: VK_BOT_ENABLED
+        value: "false"
+      - key: GIGACHAT_SCOPE
+        value: GIGACHAT_API_PERS
+      - key: GIGACHAT_MODEL
+        value: GigaChat-2
+      # Значения ниже Render спросит при создании сервиса
+      - key: GIGACHAT_AUTH_KEY
+        sync: false
