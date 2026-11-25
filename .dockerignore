@@ -1,0 +1,17 @@
+**/node_modules
+**/dist
+**/.pgdata
+**/tmp-samples
+**/uploads
+**/*.log
+**/.env
+**/.env.*
+!**/.env.example
+server/certs/*.key
+.git
+.vscode
+.idea
+API
+Docs
+tmp-*
+nul

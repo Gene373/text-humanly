@@ -1,0 +1,46 @@
+# зависимости
+node_modules/
+.npm/
+
+# сборка
+dist/
+build/
+*.tsbuildinfo
+
+# окружение и секреты
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# приватные ключи и сертификаты клиента (публичный сертификат НУЦ Минцифры хранится в server/certs)
+server/certs/*.key
+server/certs/*.pem.key
+!server/certs/russian_trusted_root_ca_pem.crt
+
+# локальная база и логи
+server/.pgdata/
+server/pg.log
+server/*.log
+*.log
+
+# загруженные/временные файлы
+server/uploads/
+server/tmp-samples/
+uploads/
+
+# тестовые артефакты
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# скачанные страницы документации GigaChat (не исходники, ~30 МБ)
+API/
+
+# редакторы и ОС
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

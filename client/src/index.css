@@ -1,0 +1,179 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #2f5bea;
+  --color-primary-soft: #eaefff;
+  --color-primary-disabled: #c4cce8;
+  --color-success: #1f9d6b;
+  --color-success-soft: #e4f4ec;
+  --color-danger: #d64545;
+  --color-danger-soft: #fbeaea;
+  --color-bg: #f7f8fb;
+  --color-surface: #ffffff;
+  --color-border: #e3e6ed;
+  --color-ink: #1a1d24;
+  --color-ink-muted: #6b7280;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  --radius-card: 16px;
+  --radius-btn: 12px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 3px rgb(26 29 36 / 0.06), 0 8px 24px rgb(26 29 36 / 0.06);
+  --shadow-focus: 0 0 0 3px rgb(47 91 234 / 0.25);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: 8px;
+  }
+
+  ::selection {
+    background-color: var(--color-primary-soft);
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: var(--radius-btn);
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    transition: filter 150ms ease-out, transform 150ms ease-out;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(0.94);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn-primary:disabled {
+    background-color: var(--color-primary-disabled);
+    cursor: not-allowed;
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--radius-btn);
+    color: var(--color-primary);
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 150ms ease-out;
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-primary-soft);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--color-border);
+    color: var(--color-ink);
+    font-size: 15px;
+    font-weight: 500;
+    background-color: var(--color-surface);
+    transition: background-color 150ms ease-out, border-color 150ms ease-out;
+  }
+
+  .btn-outline:hover:not(:disabled) {
+    background-color: var(--color-bg);
+    border-color: var(--color-primary);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: var(--radius-btn);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    padding: 14px 16px;
+    font-size: 16px;
+    color: var(--color-ink);
+    transition: border-color 150ms ease-out, box-shadow 150ms ease-out;
+  }
+
+  .field::placeholder {
+    color: var(--color-ink-muted);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .field-error {
+    border-color: var(--color-danger);
+  }
+}
+
+@layer utilities {
+  .fade-in-up {
+    animation: fadeInUp 200ms ease-out both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-in-up {
+      animation: none;
+    }
+
+    * {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}

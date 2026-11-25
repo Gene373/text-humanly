@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.pgdata
+tmp-samples
+uploads
+*.log
+tests
+scripts
+.env
+.env.*
+!.env.example
