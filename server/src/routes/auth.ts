@@ -58,7 +58,10 @@ authRouter.post('/request-login', async (req, res, next) => {
       ok: true,
       message: 'Проверьте почту — мы отправили ссылку для входа.',
       // В dev без SMTP возвращаем ссылку, чтобы можно было войти локально.
-      ...(!isMailerConfigured() && !config.isProduction ? { devLoginUrl: link } : {}),
+      // В production это делает только явный флаг DEV_LOGIN_LINK (демо-стенд).
+      ...(!isMailerConfigured() && (!config.isProduction || config.devLoginLink)
+        ? { devLoginUrl: link }
+        : {}),
     });
   } catch (error) {
     next(error);

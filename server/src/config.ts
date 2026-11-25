@@ -32,6 +32,12 @@ function str(name: string, fallback = ''): string {
   return process.env[name]?.trim() || fallback;
 }
 
+function bool(name: string, fallback = false): boolean {
+  const raw = process.env[name]?.trim().toLowerCase();
+  if (!raw) return fallback;
+  return raw === '1' || raw === 'true' || raw === 'yes';
+}
+
 export type LlmProvider = 'auto' | 'gigachat' | 'openai' | 'local';
 
 function readProvider(): LlmProvider {
@@ -47,6 +53,8 @@ export const config = {
   sessionSecret: process.env.SESSION_SECRET ?? 'dev_secret_change_me_in_production',
   sessionTtlDays: num('SESSION_TTL_DAYS', 7),
   magicLinkTtlMinutes: num('MAGIC_LINK_TTL_MINUTES', 15),
+  // Демо-режим: без SMTP возвращать ссылку для входа в ответе API даже в production.
+  devLoginLink: bool('DEV_LOGIN_LINK', false),
   dailyLimit: num('DAILY_LIMIT', 3),
   maxTextLength: num('MAX_TEXT_LENGTH', 10000),
   llm: {
