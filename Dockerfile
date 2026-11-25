@@ -34,16 +34,18 @@ RUN npx tsc --noEmit
 FROM node:22-alpine AS runtime
 WORKDIR /app/server
 
-ENV NODE_ENV=production
-
 COPY server/package*.json ./
-# tsx нужен в рантайме (запускает TypeScript напрямую)
-RUN npm ci
+# tsx (запуск TypeScript) и prisma CLI (migrate deploy) лежат в devDependencies,
+# поэтому ставим их явно, и только потом включаем production-режим.
+RUN npm ci --include=dev
 
+COPY server/src ./src
+# Сгенерированный Prisma Client копируем последним, чтобы он не был перезаписан
 COPY --from=server-build /app/server/src/generated ./src/generated
 COPY --from=server-build /app/server/prisma ./prisma
 COPY --from=server-build /app/server/prisma.config.ts ./
-COPY server/src ./src
+
+ENV NODE_ENV=production
 
 # Корневой сертификат НУЦ Минцифры (нужен для api.giga.chat)
 COPY server/certs ./certs
